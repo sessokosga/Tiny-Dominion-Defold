@@ -1,0 +1,75 @@
+local data_proxy = require "logic.data_proxy"
+local resource_manager = require "logic.resource_manager"
+local player_manager = require "logic.player_manager"
+
+local function run_stress_test()
+    print("--- [STRESS TEST] Starting Simulation ---")
+
+    -- 1. Init
+    local success = data_proxy.init()
+    resource_manager.init()
+    player_manager.init()
+    
+    if not success then
+        print("[STRESS TEST] ERROR: Failed to initialize data_proxy")
+        return
+    end
+    print("[STRESS TEST] SUCCESS: System Initialized")
+
+    -- 2. Resources Test
+    print("[STRESS TEST] Testing Resources (Wood)...")
+    resource_manager.add("wood", 1000)
+    print("[STRESS TEST] Added 1000 wood. Current: " .. resource_manager.get("wood"))
+
+    local removed = resource_manager.remove("wood", 1200)
+    local current_wood = resource_manager.get("wood")
+    if not removed and current_wood >= 0 then
+        print("[STRESS TEST] SUCCESS: Wood correctly clamped/blocked at " .. current_wood .. " (Requested 1200)")
+    else
+        print("[STRESS TEST] FAILURE: Wood is " .. current_wood)
+    end
+
+    -- 3. Inventory Test
+    print("[STRESS TEST] Testing Inventory (Boosters)...")
+    -- Using 'speedup_1m' which exists in CastleDB
+    player_manager.add_booster("speedup_1m", 3)
+    print("[STRESS TEST] Added 3 speedup_1m boosters. Current: " .. player_manager.get_booster_count("speedup_1m"))
+
+    local consumed = player_manager.consume_booster("speedup_1m")
+    local remaining = player_manager.get_booster_count("speedup_1m")
+    if consumed and remaining == 2 then
+        print("[STRESS TEST] SUCCESS: Booster consumed. Remaining: " .. remaining)
+    else
+        print("[STRESS TEST] FAILURE: Booster count is " .. remaining)
+    end
+
+    print("--- [STRESS TEST] End of Simulation ---")
+end
+
+local function debug_monitor(self)
+    print("\n--- [DEBUG MONITOR] ---")
+    print("Resources: Wood=" .. resource_manager.get("wood") .. 
+          " | Stone=" .. resource_manager.get("stone") .. 
+          " | Gold=" .. resource_manager.get("gold"))
+    
+    local boosters = player_manager.get_owned_boosters()
+    local booster_str = ""
+    for _, b in ipairs(boosters) do
+        booster_str = booster_str .. b.id .. ":" .. b.count .. " "
+    end
+    print("Inventory: " .. (booster_str ~= "" and booster_str or "Empty"))
+    print("-----------------------\n")
+end
+
+function init(self)
+    run_stress_test()
+    
+    -- Timer for debug monitor (every 1 second as requested)
+    self.timer_id = timer.delay(1, true, debug_monitor)
+end
+
+function final(self)
+    if self.timer_id then
+        timer.cancel(self.timer_id)
+    end
+end

@@ -1,0 +1,1274 @@
+{
+	"sheets": [
+		{
+			"name": "buildings",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id"
+				},
+				{
+					"typeStr": "1",
+					"name": "name",
+					"opt": false,
+					"kind": "localizable"
+				},
+				{
+					"typeStr": "1",
+					"name": "desc",
+					"opt": true,
+					"kind": "localizable"
+				},
+				{
+					"typeStr": "5:Housing,Production,Utility,Defense,Storage,Decoration,Road",
+					"name": "type"
+				},
+				{
+					"typeStr": "3",
+					"name": "footprint_w"
+				},
+				{
+					"typeStr": "3",
+					"name": "footprint_h"
+				},
+				{
+					"typeStr": "5:Grass,Dirt,Any",
+					"name": "allowed_ground"
+				},
+				{
+					"typeStr": "8",
+					"name": "costs"
+				},
+				{
+					"typeStr": "9:Duration",
+					"name": "build_time"
+				},
+				{
+					"typeStr": "3",
+					"name": "builders_max",
+					"opt": false,
+					"defaultValue": 2
+				},
+				{
+					"typeStr": "3",
+					"name": "workers_max"
+				},
+				{
+					"typeStr": "6:resources",
+					"name": "production",
+					"opt": false
+				},
+				{
+					"typeStr": "8",
+					"name": "upgrades"
+				},
+				{
+					"typeStr": "1",
+					"name": "sprite_anim"
+				},
+				{
+					"typeStr": "1",
+					"name": "ui_icon",
+					"opt": true
+				}
+			],
+			"lines": [
+				{
+					"id": "sawmill",
+					"name": "Scierie",
+					"type": 1,
+					"costs": [
+						{
+							"cost": [
+								0,
+								"wood",
+								[
+									0,
+									50
+								]
+							]
+						}
+					],
+					"build_time": [
+						0,
+						5
+					],
+					"workers_max": 2,
+					"upgrades": [],
+					"sprite_anim": "anim_sawmill",
+					"footprint_w": 2,
+					"footprint_h": 2,
+					"allowed_ground": 0,
+					"ui_icon": "",
+					"desc": "",
+					"builders_max": 2,
+					"production": "wood"
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "trees",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id"
+				},
+				{
+					"typeStr": "1",
+					"name": "name",
+					"opt": false,
+					"kind": "localizable"
+				},
+				{
+					"typeStr": "6:resources",
+					"name": "resource_yield"
+				},
+				{
+					"typeStr": "2",
+					"name": "destroy_after_yield",
+					"opt": false,
+					"defaultValue": true
+				},
+				{
+					"typeStr": "3",
+					"name": "amount_per_harvest"
+				},
+				{
+					"typeStr": "9:Duration",
+					"name": "harvest_time_sec",
+					"opt": true
+				},
+				{
+					"typeStr": "3",
+					"name": "total_harvests"
+				},
+				{
+					"typeStr": "9:Duration",
+					"name": "regrow_time",
+					"display": null
+				},
+				{
+					"typeStr": "1",
+					"name": "sprite_frame"
+				}
+			],
+			"lines": [
+				{
+					"id": "oak_tree",
+					"name": "Chêne",
+					"resource_yield": "wood",
+					"amount_per_harvest": 3,
+					"total_harvests": 5,
+					"regrow_time": [
+						1,
+						5
+					],
+					"sprite_frame": "tree_oak",
+					"harvest_time_sec": [
+						0,
+						5
+					],
+					"destroy_after_yield": true
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "boosters",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id"
+				},
+				{
+					"typeStr": "1",
+					"name": "name",
+					"opt": false,
+					"kind": "localizable"
+				},
+				{
+					"name": "effect",
+					"typeStr": "9:BoosterEffect"
+				},
+				{
+					"typeStr": "3",
+					"name": "stack_max",
+					"opt": true
+				},
+				{
+					"typeStr": "5:Common,Rare,Epic,Legendary",
+					"name": "rarity",
+					"opt": true
+				},
+				{
+					"typeStr": "8",
+					"name": "pack_contents"
+				},
+				{
+					"typeStr": "8",
+					"name": "buy_cost"
+				}
+			],
+			"lines": [
+				{
+					"id": "time_warp_small",
+					"name": "Boost de Temps (x2)",
+					"pack_contents": [],
+					"buy_cost": [
+						{
+							"cost": [
+								0,
+								"gold",
+								[
+									0,
+									10
+								]
+							]
+						}
+					],
+					"stack_max": 99,
+					"rarity": 0,
+					"effect": [
+						1,
+						2,
+						[
+							1,
+							1
+						]
+					]
+				},
+				{
+					"id": "starter_pack",
+					"name": "Pack de Bienvenue",
+					"pack_contents": [
+						{
+							"content": [
+								0,
+								"wood",
+								[
+									0,
+									100
+								]
+							]
+						},
+						{
+							"content": [
+								0,
+								"stone",
+								[
+									0,
+									50
+								]
+							]
+						}
+					],
+					"buy_cost": [],
+					"stack_max": 99,
+					"rarity": 0,
+					"effect": [
+						2
+					]
+				},
+				{
+					"id": "speedup_1m",
+					"name": "Speed-Up 1 min",
+					"pack_contents": [],
+					"buy_cost": [
+						{
+							"cost": [
+								0,
+								"gold",
+								[
+									0,
+									5
+								]
+							]
+						}
+					],
+					"stack_max": 99,
+					"rarity": 0,
+					"effect": [
+						0,
+						[
+							1,
+							1
+						]
+					]
+				},
+				{
+					"id": "speedup_5m",
+					"name": "Speed-Up 5 min",
+					"pack_contents": [],
+					"buy_cost": [
+						{
+							"cost": [
+								0,
+								"gold",
+								[
+									0,
+									20
+								]
+							]
+						}
+					],
+					"stack_max": 99,
+					"rarity": 0,
+					"effect": [
+						0,
+						[
+							1,
+							5
+						]
+					]
+				},
+				{
+					"id": "speedup_30m",
+					"name": "Speed-Up 30 min",
+					"pack_contents": [],
+					"buy_cost": [
+						{
+							"cost": [
+								0,
+								"gold",
+								[
+									0,
+									100
+								]
+							]
+						}
+					],
+					"stack_max": 99,
+					"rarity": 1,
+					"effect": [
+						0,
+						[
+							1,
+							30
+						]
+					]
+				},
+				{
+					"id": "speedup_1hr",
+					"name": "Speed-Up 1hr(s)",
+					"pack_contents": [],
+					"buy_cost": [
+						{
+							"cost": [
+								0,
+								"gold",
+								[
+									0,
+									500
+								]
+							]
+						}
+					],
+					"effect": [
+						0,
+						[
+							2,
+							1
+						]
+					],
+					"stack_max": 99,
+					"rarity": 3
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "resources",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id"
+				},
+				{
+					"typeStr": "1",
+					"name": "name",
+					"opt": false,
+					"kind": "localizable"
+				},
+				{
+					"typeStr": "5:Currency,Material,Food",
+					"name": "category"
+				},
+				{
+					"typeStr": "1",
+					"name": "icon",
+					"opt": true
+				},
+				{
+					"typeStr": "3",
+					"name": "stack_max",
+					"opt": true
+				}
+			],
+			"lines": [
+				{
+					"id": "wood",
+					"name": "Bois",
+					"category": 1,
+					"icon": "",
+					"stack_max": 9999
+				},
+				{
+					"id": "stone",
+					"name": "Pierre",
+					"category": 1,
+					"icon": "",
+					"stack_max": 9999
+				},
+				{
+					"id": "gold",
+					"name": "Or",
+					"category": 0,
+					"icon": "",
+					"stack_max": 9999
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "buildings@costs",
+			"props": {
+				"hide": true,
+				"isProps": true
+			},
+			"columns": [
+				{
+					"name": "cost",
+					"typeStr": "9:ResAmountI"
+				}
+			],
+			"lines": [],
+			"separators": []
+		},
+		{
+			"name": "buildings@upgrades",
+			"props": {
+				"hide": true
+			},
+			"columns": [
+				{
+					"typeStr": "3",
+					"name": "level"
+				},
+				{
+					"typeStr": "4",
+					"name": "prod_mult"
+				}
+			],
+			"lines": [],
+			"separators": []
+		},
+		{
+			"name": "boosters@buy_cost",
+			"props": {
+				"hide": true,
+				"isProps": true
+			},
+			"columns": [
+				{
+					"name": "cost",
+					"typeStr": "9:ResAmountI"
+				}
+			],
+			"lines": [],
+			"separators": []
+		},
+		{
+			"name": "boosters@pack_contents",
+			"props": {
+				"hide": true
+			},
+			"columns": [
+				{
+					"name": "content",
+					"typeStr": "9:ResAmountI"
+				}
+			],
+			"lines": [],
+			"separators": []
+		},
+		{
+			"name": "building_levels",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id"
+				},
+				{
+					"typeStr": "6:buildings",
+					"name": "building_id"
+				},
+				{
+					"typeStr": "3",
+					"name": "level"
+				},
+				{
+					"typeStr": "9:Duration",
+					"name": "build_time_sec"
+				},
+				{
+					"typeStr": "3",
+					"name": "workers_max"
+				},
+				{
+					"typeStr": "8",
+					"name": "costs"
+				},
+				{
+					"typeStr": "8",
+					"name": "production"
+				}
+			],
+			"lines": [
+				{
+					"id": "sawmill_lv1",
+					"building_id": "sawmill",
+					"level": 1,
+					"build_time_sec": [
+						0,
+						15
+					],
+					"workers_max": 3,
+					"costs": [
+						{
+							"cost": [
+								0,
+								"wood",
+								[
+									0,
+									50
+								]
+							]
+						}
+					],
+					"production": [
+						{
+							"rule": [
+								1,
+								"wood",
+								[
+									0,
+									5
+								],
+								[
+									0,
+									10
+								]
+							]
+						}
+					]
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "building_levels@costs",
+			"columns": [
+				{
+					"name": "cost",
+					"typeStr": "9:ResAmountI"
+				}
+			],
+			"lines": [],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "building_levels@production",
+			"columns": [
+				{
+					"name": "rule",
+					"typeStr": "9:ProdRule"
+				}
+			],
+			"lines": [],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "obstacles",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id"
+				},
+				{
+					"typeStr": "1",
+					"name": "name",
+					"kind": "localizable",
+					"opt": false
+				},
+				{
+					"typeStr": "3",
+					"name": "footprint_w"
+				},
+				{
+					"typeStr": "3",
+					"name": "footprint_h"
+				},
+				{
+					"typeStr": "5:Grass,Dirt,Any",
+					"name": "allowed_ground"
+				},
+				{
+					"typeStr": "9:Duration",
+					"name": "clear_time_sec"
+				},
+				{
+					"typeStr": "8",
+					"name": "clear_cost"
+				},
+				{
+					"typeStr": "8",
+					"name": "rewards"
+				},
+				{
+					"typeStr": "1",
+					"name": "sprite_frame",
+					"opt": true
+				}
+			],
+			"lines": [
+				{
+					"id": "dense_forest",
+					"name": "Forêt dense",
+					"footprint_w": 2,
+					"footprint_h": 2,
+					"allowed_ground": 0,
+					"clear_time_sec": [
+						1,
+						2
+					],
+					"clear_cost": [
+						{
+							"cost": [
+								0,
+								"wood",
+								[
+									0,
+									10
+								]
+							]
+						}
+					],
+					"rewards": [
+						{
+							"reward": [
+								0,
+								"wood",
+								[
+									0,
+									30
+								]
+							]
+						}
+					],
+					"sprite_frame": "obstacle_dense_forest"
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "obstacles@clear_cost",
+			"columns": [
+				{
+					"name": "cost",
+					"typeStr": "9:ResAmountI"
+				}
+			],
+			"lines": [],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "obstacles@rewards",
+			"columns": [
+				{
+					"name": "reward",
+					"typeStr": "9:ResAmountI"
+				}
+			],
+			"lines": [],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "audio",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"opt": false,
+					"scope": null
+				},
+				{
+					"typeStr": "1",
+					"name": "file",
+					"opt": false
+				},
+				{
+					"typeStr": "1",
+					"name": "name",
+					"opt": false
+				},
+				{
+					"typeStr": "9:AudioType",
+					"name": "type",
+					"opt": false
+				},
+				{
+					"typeStr": "4",
+					"name": "volume",
+					"opt": false,
+					"display": 1,
+					"defaultValue": 0.8
+				}
+			],
+			"lines": [
+				{
+					"id": "au_Track_2__Bossa_and_Joy",
+					"file": "Track_2__Bossa_and_Joy",
+					"volume": 0.5,
+					"type": [
+						1
+					],
+					"name": "Bossa and Joy"
+				},
+				{
+					"id": "au_Track_4__Easy_Peasy",
+					"file": "Track_4__Easy_Peasy",
+					"volume": 0.5,
+					"type": [
+						1
+					],
+					"name": "Easy Peasy"
+				},
+				{
+					"id": "au_Track_5__Beach_Town",
+					"file": "Track_5__Beach_Town",
+					"volume": 0.5,
+					"type": [
+						1
+					],
+					"name": "Beach Town"
+				},
+				{
+					"id": "au_Track_6__Lying_on_Mat",
+					"file": "Track_6__Lying_on_Mat",
+					"volume": 0.5,
+					"type": [
+						1
+					],
+					"name": "Lying on Mat"
+				},
+				{
+					"id": "au_btn_pressed",
+					"file": "btn_pressed",
+					"name": "SFX Pressed",
+					"volume": 0.8,
+					"type": [
+						0,
+						0.15
+					]
+				},
+				{
+					"id": "au_buy",
+					"file": "buy",
+					"name": "SFX Buy",
+					"volume": 0.8,
+					"type": [
+						0,
+						0.15
+					]
+				},
+				{
+					"id": "au_chop_tree",
+					"file": "chop_tree",
+					"name": "SFX Chop tree",
+					"volume": 0.8,
+					"type": [
+						0,
+						0.15
+					]
+				},
+				{
+					"id": "au_dig_tree",
+					"file": "dig_tree",
+					"name": "SFX Dig tree",
+					"volume": 0.8,
+					"type": [
+						0,
+						0.15
+					]
+				},
+				{
+					"id": "au_pick_crop",
+					"file": "pick_crop",
+					"name": "SFX Pick crop",
+					"volume": 0.8,
+					"type": [
+						0,
+						0.15
+					]
+				},
+				{
+					"id": "au_quest",
+					"file": "quest",
+					"name": "SFX Quest",
+					"volume": 0.8,
+					"type": [
+						0,
+						0.15
+					]
+				},
+				{
+					"id": "au_tree_chopped",
+					"file": "tree_chopped",
+					"name": "SFX Tree chopped",
+					"volume": 0.8,
+					"type": [
+						0,
+						0.15
+					]
+				}
+			],
+			"separators": [],
+			"props": {
+				"displayColumn": "name"
+			}
+		},
+		{
+			"name": "playlist",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"opt": false,
+					"scope": null
+				},
+				{
+					"typeStr": "1",
+					"name": "name",
+					"opt": false
+				},
+				{
+					"typeStr": "8",
+					"name": "tracks",
+					"opt": false
+				}
+			],
+			"lines": [
+				{
+					"id": "summer",
+					"name": "Summer",
+					"tracks": [
+						{
+							"id": "au_Track_2__Bossa_and_Joy"
+						},
+						{
+							"id": "au_Track_4__Easy_Peasy"
+						},
+						{
+							"id": "au_Track_5__Beach_Town"
+						},
+						{
+							"id": "au_Track_6__Lying_on_Mat"
+						}
+					]
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "unit",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"opt": false,
+					"scope": null
+				},
+				{
+					"typeStr": "1",
+					"name": "name",
+					"opt": false,
+					"kind": "localizable"
+				},
+				{
+					"typeStr": "9:UnitKind",
+					"name": "kind",
+					"opt": false
+				},
+				{
+					"typeStr": "3",
+					"name": "max_hp",
+					"opt": false,
+					"defaultValue": 10
+				},
+				{
+					"typeStr": "3",
+					"name": "max_speed",
+					"opt": false,
+					"defaultValue": 50
+				}
+			],
+			"lines": [
+				{
+					"id": "un_villager",
+					"name": "Villageois",
+					"kind": [
+						0
+					],
+					"max_speed": 50,
+					"max_hp": 10
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "sfx",
+			"columns": [
+				{
+					"typeStr": "0",
+					"name": "id",
+					"opt": false,
+					"scope": null
+				},
+				{
+					"typeStr": "6:unit",
+					"name": "unit",
+					"opt": false
+				},
+				{
+					"typeStr": "1",
+					"name": "anim",
+					"opt": false
+				},
+				{
+					"typeStr": "3",
+					"name": "frame",
+					"opt": false,
+					"defaultValue": 0
+				},
+				{
+					"typeStr": "6:audio",
+					"name": "sound",
+					"opt": false
+				},
+				{
+					"typeStr": "5:Any,Tree,Building,Rock",
+					"name": "target",
+					"opt": false
+				},
+				{
+					"typeStr": "9:SFXTriggerMode",
+					"name": "mode",
+					"opt": false
+				},
+				{
+					"typeStr": "2",
+					"name": "enabled",
+					"opt": false,
+					"defaultValue": true
+				}
+			],
+			"lines": [
+				{
+					"id": "sfx_chop",
+					"unit": "un_villager",
+					"anim": "axe",
+					"frame": 3,
+					"sound": "au_chop_tree",
+					"target": 1,
+					"mode": [
+						1,
+						0.7
+					],
+					"enabled": true
+				},
+				{
+					"id": "sfx_chop1",
+					"unit": "un_villager",
+					"anim": "axe",
+					"frame": 3,
+					"sound": "au_quest",
+					"target": 2,
+					"mode": [
+						1,
+						0.7
+					],
+					"enabled": false
+				}
+			],
+			"separators": [],
+			"props": {}
+		},
+		{
+			"name": "playlist@tracks",
+			"props": {
+				"hide": true
+			},
+			"separators": [],
+			"lines": [],
+			"columns": [
+				{
+					"typeStr": "6:audio",
+					"name": "id",
+					"opt": false
+				}
+			]
+		}
+	],
+	"customTypes": [
+		{
+			"name": "Duration",
+			"cases": [
+				{
+					"name": "sec",
+					"args": [
+						{
+							"name": "v",
+							"typeStr": "3"
+						}
+					]
+				},
+				{
+					"name": "min",
+					"args": [
+						{
+							"name": "v",
+							"typeStr": "3"
+						}
+					]
+				},
+				{
+					"name": "hour",
+					"args": [
+						{
+							"name": "v",
+							"typeStr": "3"
+						}
+					]
+				},
+				{
+					"name": "day",
+					"args": [
+						{
+							"name": "v",
+							"typeStr": "3"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "AmountI",
+			"cases": [
+				{
+					"name": "fixed",
+					"args": [
+						{
+							"name": "v",
+							"typeStr": "3"
+						}
+					]
+				},
+				{
+					"name": "range",
+					"args": [
+						{
+							"name": "min",
+							"typeStr": "3"
+						},
+						{
+							"name": "max",
+							"typeStr": "3"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "AmountF",
+			"cases": [
+				{
+					"name": "fixed",
+					"args": [
+						{
+							"name": "v",
+							"typeStr": "4"
+						}
+					]
+				},
+				{
+					"name": "range",
+					"args": [
+						{
+							"name": "min",
+							"typeStr": "4"
+						},
+						{
+							"name": "max",
+							"typeStr": "4"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "ResAmountI",
+			"cases": [
+				{
+					"name": "res",
+					"args": [
+						{
+							"name": "resource",
+							"typeStr": "6:resources"
+						},
+						{
+							"name": "amount",
+							"typeStr": "9:AmountI"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "ProdRule",
+			"cases": [
+				{
+					"name": "every",
+					"args": [
+						{
+							"name": "resource",
+							"typeStr": "6:resources"
+						},
+						{
+							"name": "amount",
+							"typeStr": "9:AmountF"
+						},
+						{
+							"name": "interval",
+							"typeStr": "9:Duration"
+						}
+					]
+				},
+				{
+					"name": "perWorker",
+					"args": [
+						{
+							"name": "resource",
+							"typeStr": "6:resources"
+						},
+						{
+							"name": "amountPerWorker",
+							"typeStr": "9:AmountF"
+						},
+						{
+							"name": "interval",
+							"typeStr": "9:Duration"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "BoosterEffect",
+			"cases": [
+				{
+					"name": "timeReduce",
+					"args": [
+						{
+							"name": "delta",
+							"typeStr": "9:Duration"
+						}
+					]
+				},
+				{
+					"name": "speed",
+					"args": [
+						{
+							"name": "mult",
+							"typeStr": "4"
+						},
+						{
+							"name": "duration",
+							"typeStr": "9:Duration"
+						}
+					]
+				},
+				{
+					"name": "resourcePack",
+					"args": []
+				}
+			]
+		},
+		{
+			"name": "AudioType",
+			"cases": [
+				{
+					"name": "SFX",
+					"args": [
+						{
+							"name": "var",
+							"typeStr": "4"
+						}
+					]
+				},
+				{
+					"name": "BGM",
+					"args": []
+				}
+			]
+		},
+		{
+			"name": "UnitKind",
+			"cases": [
+				{
+					"name": "Villager",
+					"args": []
+				},
+				{
+					"name": "Enemy",
+					"args": []
+				},
+				{
+					"name": "Neutral",
+					"args": []
+				}
+			]
+		},
+		{
+			"name": "SFXTriggerMode",
+			"cases": [
+				{
+					"name": "Always",
+					"args": []
+				},
+				{
+					"name": "Random",
+					"args": [
+						{
+							"name": "chance",
+							"typeStr": "4"
+						}
+					]
+				}
+			]
+		}
+	],
+	"compress": false
+}

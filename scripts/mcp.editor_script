@@ -1,0 +1,105 @@
+local M = {}
+
+print(("MCP running on %s/mcp"):format(http.server.local_url))
+
+function M.get_http_server_routes()
+    return {
+        http.server.route("/mcp", "POST", "json", function(request)
+            local method = request.body.method
+            if method == "initialize" then
+                return http.server.json_response({
+                    jsonrpc = "2.0",
+                    id = request.body.id,
+                    result = {
+                        protocolVersion = "2024-11-05",
+                        serverInfo = {
+                            name = ("Defold (%s)"):format(editor.get("/game.project", "project.title")),
+                            version = editor.version or "dev"
+                        },
+                        capabilities = {
+                            logging = {},
+                            prompts = {listChanged = true},
+                            resources = {
+                                subscribe = true,
+                                listChanged = true
+                            },
+                            tools = {listChanged = true}
+                        }
+                    }
+                })
+            elseif method == "tools/list" then
+                return http.server.json_response({
+                    jsonrpc = "2.0",
+                    id = request.body.id,
+                    result = {tools = {
+                        {
+                            name = "eval_editor_script",
+                            title = "Eval editor script",
+                            description = "Eval lua code as editor script. Documentation: https://defold.com/ref/stable/editor-lua/ Some examples: `editor.get('/', 'children')`, `editor.get('/game.project', 'bootstrap.main_collection')`, `return editor.get('/logic.lua', 'text')`",
+                            inputSchema = {
+                                type = "object",
+                                properties = {lua_code = {type = "string"}},
+                                required = {"lua_code"}
+                            }
+                        }
+                    }}
+                })
+            elseif method == "tools/call" then
+                local tool_name = request.body.params.name
+                if tool_name == "eval_editor_script" then
+                    local code = request.body.params.arguments.lua_code
+                    local content = {}
+                    local print_fn = function(...)
+                        local s = ""
+                        for i = 1, select("#", ...) do
+                            if i ~= 1 then
+                                s = s .. " "
+                            end
+                            s = s .. tostring(select(i, ...))
+                        end
+                        content[#content+1] = {type = "text", text = s}
+                    end
+                    local env = {}
+                    for key, value in pairs(_G) do
+                        env[key] = value
+                    end
+                    env.print = print_fn
+                    local f, err = load(code, "eval", "t", env)
+                    local success, result
+                    if f then
+                        success, result = pcall(f)
+                    else
+                        success, result = false, err
+                    end
+                    content[#content+1] = {type = "text", text = tostring(result)}
+                    return http.server.json_response({
+                        jsonrpc = "2.0",
+                        id = request.body.id,
+                        result = {
+                            isError = not success,
+                            content = content
+                        }
+                    })
+                end
+            elseif method == "resources/list" then
+                return http.server.json_response({
+                    jsonrpc = "2.0",
+                    id = request.body.id,
+                    result = {}
+                })
+            elseif method == "prompts/list" then
+                return http.server.json_response({
+                    jsonrpc = "2.0",
+                    id = request.body.id,
+                    result = {}
+                })
+            elseif method == "notifications/initialized" then
+                return http.server.response()
+            else
+                pprint(request)
+            end
+        end)
+    }
+end
+
+return M

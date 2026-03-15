@@ -1,0 +1,12 @@
+/.editor_settings
+/.internal
+/build
+/code-construct3
+.externalToolBuilders
+.DS_Store
+Thumbs.db
+.lock-wscript
+*.pyc
+.project
+.cproject
+builtins
