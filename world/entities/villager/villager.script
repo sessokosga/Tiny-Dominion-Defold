@@ -1,0 +1,151 @@
+local STATE_IDLE = hash("idle")
+local STATE_MOVING = hash("moving_to_target")
+local STATE_BUILDING = hash("building")
+local STATE_GATHERING = hash("harvesting")
+local STATE_PICKING_UP = hash("picking_up")
+local STATE_MOVING_TO_DEPOSIT = hash("moving_to_deposit")
+
+go.property("speed", 50)
+go.property("max_inventory", 5)
+
+-- Pour tracker le manager et la target
+local game_manager = require("logic.game_manager")
+
+-- Déclaration anticipée des fonctions locales
+local set_state
+local set_target
+local update_idle_logic
+local on_arrived
+
+function init(self)
+    self.state = STATE_IDLE
+    self.target_id = nil
+    self.target_pos = nil
+    self.target_type = nil
+    
+    self.workplace_id = nil
+    self.inventory = 0
+    self.carried_resource = nil
+    self.is_reserved = false
+
+    game_manager.register_entity("villager", go.get_id())
+end
+
+function final(self)
+    game_manager.unregister_entity("villager", go.get_id())
+end
+
+function update(self, dt)
+    -- Logique de mouvement linéaire simple vers la cible
+    if self.state == STATE_MOVING or self.state == STATE_MOVING_TO_DEPOSIT then
+        if self.target_pos then
+            local pos = go.get_position()
+            local dir = self.target_pos - pos
+            local dist = vmath.length(dir)
+            
+            if dist < 5 then
+                -- Arrivé à destination
+                go.set_position(self.target_pos)
+                on_arrived(self)
+            else
+                -- Mouvement linéaire simple
+                local vel = vmath.normalize(dir) * self.speed
+                go.set_position(pos + vel * dt)
+            end
+        else
+            set_state(self, STATE_IDLE)
+        end
+    elseif self.state == STATE_IDLE then
+        update_idle_logic(self, dt)
+    elseif self.state == STATE_BUILDING then
+        -- Le bâtiment gère la progression de construction (via son update).
+        -- Le villageois attend ici et pourrait jouer une animation de construction.
+        if not self.target_id then
+            set_target(self, nil)
+        end
+    elseif self.state == STATE_GATHERING then
+        -- Implémentation future pour récolter les ressources (Trees, etc.)
+    end
+end
+
+function set_state(self, new_state)
+    if self.state == new_state then return end
+    self.state = new_state
+    -- TODO: Mettre à jour l'animation (msg.post("#sprite", "play_animation", { id = ... }))
+end
+
+function update_idle_logic(self, dt)
+    self.is_reserved = false
+    
+    if self.workplace_id then
+        self.is_reserved = true
+        
+        -- Si l'inventaire est plein, aller au lieu de travail pour déposer
+        if self.inventory >= self.max_inventory then
+            local wp_pos = go.get_position(self.workplace_id)
+            set_target(self, self.workplace_id, wp_pos, hash("building"), STATE_MOVING_TO_DEPOSIT)
+            return
+        end
+        
+        -- TODO: Intégrer la recherche de ressources/arbres au sol avec GameManager
+    end
+end
+
+function set_target(self, target_id, target_pos, target_type, move_state)
+    -- Si on était en train de construire, on se retire
+    if self.state == STATE_BUILDING and self.target_id then
+        msg.post(self.target_id, "remove_builder")
+    end
+
+    self.target_id = target_id
+    self.target_pos = target_pos
+    self.target_type = target_type
+    
+    if target_id and target_pos then
+        set_state(self, move_state or STATE_MOVING)
+    else
+        set_state(self, STATE_IDLE)
+    end
+end
+
+function on_arrived(self)
+    if self.state == STATE_MOVING then
+        if self.target_type == hash("building") then
+            set_state(self, STATE_BUILDING)
+            msg.post(self.target_id, "add_builder")
+        elseif self.target_type == hash("tree") then
+            set_state(self, STATE_GATHERING)
+        elseif self.target_type == hash("resource") then
+            set_state(self, STATE_PICKING_UP)
+            -- TODO: Implémenter le ramassage de ressources
+            set_state(self, STATE_IDLE)
+        else
+            set_state(self, STATE_IDLE)
+        end
+    elseif self.state == STATE_MOVING_TO_DEPOSIT then
+        if self.target_id == self.workplace_id then
+            -- Déposer les ressources
+            if self.inventory > 0 and self.carried_resource then
+                local resource_manager = require("logic.resource_manager")
+                resource_manager.add(self.carried_resource, self.inventory)
+                self.inventory = 0
+                self.carried_resource = nil
+            end
+        end
+        set_state(self, STATE_IDLE)
+    end
+end
+
+function on_message(self, message_id, message, sender)
+    if message_id == hash("set_target") then
+        set_target(self, message.target_id, message.target_pos, message.target_type, message.move_state)
+    elseif message_id == hash("stop_action") then
+        set_target(self, nil)
+    elseif message_id == hash("assign_workplace") then
+        self.workplace_id = message.workplace_id
+    elseif message_id == hash("building_completed") then
+        if self.state == STATE_BUILDING and self.target_id == message.building_id then
+            set_target(self, nil)
+        end
+    end
+end

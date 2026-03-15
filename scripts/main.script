@@ -1,75 +1,92 @@
 local data_proxy = require "logic.data_proxy"
 local resource_manager = require "logic.resource_manager"
 local player_manager = require "logic.player_manager"
+local game_manager = require "logic.game_manager"
 
-local function run_stress_test()
-    print("--- [STRESS TEST] Starting Simulation ---")
+local function run_gameplay_simulation(self)
+    print("--- [GAMEPLAY SIMULATION] Starting Initialization ---")
 
-    -- 1. Init
+    -- 1. Init Data & Managers
     local success = data_proxy.init()
     resource_manager.init()
     player_manager.init()
-    
+
     if not success then
-        print("[STRESS TEST] ERROR: Failed to initialize data_proxy")
+        print("[GAMEPLAY SIMULATION] ERROR: Failed to initialize data_proxy")
         return
     end
-    print("[STRESS TEST] SUCCESS: System Initialized")
 
-    -- 2. Resources Test
-    print("[STRESS TEST] Testing Resources (Wood)...")
-    resource_manager.add("wood", 1000)
-    print("[STRESS TEST] Added 1000 wood. Current: " .. resource_manager.get("wood"))
+    -- Initialisation des ressources pour le test (si la construction en a besoin plus tard)
+    resource_manager.add("wood", 500)
+    resource_manager.add("stone", 200)
 
-    local removed = resource_manager.remove("wood", 1200)
-    local current_wood = resource_manager.get("wood")
-    if not removed and current_wood >= 0 then
-        print("[STRESS TEST] SUCCESS: Wood correctly clamped/blocked at " .. current_wood .. " (Requested 1200)")
-    else
-        print("[STRESS TEST] FAILURE: Wood is " .. current_wood)
-    end
+    print("[GAMEPLAY SIMULATION] SUCCESS: Managers and Resources Initialized")
 
-    -- 3. Inventory Test
-    print("[STRESS TEST] Testing Inventory (Boosters)...")
-    -- Using 'speedup_1m' which exists in CastleDB
-    player_manager.add_booster("speedup_1m", 3)
-    print("[STRESS TEST] Added 3 speedup_1m boosters. Current: " .. player_manager.get_booster_count("speedup_1m"))
+    -- 2. Spawning Entities
+    print("[GAMEPLAY SIMULATION] Spawning Building (Target) at {0, 0}")
+    local building_pos = vmath.vector3(0, 0, 0)
+    self.sim_building_id = game_manager.create_entity("#building_factory", building_pos, nil, nil, nil, "building")
 
-    local consumed = player_manager.consume_booster("speedup_1m")
-    local remaining = player_manager.get_booster_count("speedup_1m")
-    if consumed and remaining == 2 then
-        print("[STRESS TEST] SUCCESS: Booster consumed. Remaining: " .. remaining)
-    else
-        print("[STRESS TEST] FAILURE: Booster count is " .. remaining)
-    end
+    print("[GAMEPLAY SIMULATION] Spawning Villager at {500, 500}")
+    local villager_pos = vmath.vector3(500, 500, 0)
+    self.sim_villager_id = game_manager.create_entity("#villager_factory", villager_pos, nil, nil, nil, "villager")
 
-    print("--- [STRESS TEST] End of Simulation ---")
+    -- 3. Send Task to Villager
+    print("[GAMEPLAY SIMULATION] Assigning villager to build...")
+    msg.post(self.sim_villager_id, "set_target", {
+        target_id = self.sim_building_id,
+        target_pos = building_pos,
+        target_type = hash("building")
+    })
+
+    print("--- [GAMEPLAY SIMULATION] Setup Complete. Monitoring started. ---")
 end
 
-local function debug_monitor(self)
-    print("\n--- [DEBUG MONITOR] ---")
-    print("Resources: Wood=" .. resource_manager.get("wood") .. 
-          " | Stone=" .. resource_manager.get("stone") .. 
-          " | Gold=" .. resource_manager.get("gold"))
-    
-    local boosters = player_manager.get_owned_boosters()
-    local booster_str = ""
-    for _, b in ipairs(boosters) do
-        booster_str = booster_str .. b.id .. ":" .. b.count .. " "
+local function simulation_monitor(self)
+    -- Vérification de l'existence des entités
+    if not self.sim_villager_id or not self.sim_building_id then
+        return
     end
-    print("Inventory: " .. (booster_str ~= "" and booster_str or "Empty"))
-    print("-----------------------\n")
+
+    print("\n--- [SIMULATION MONITOR] ---")
+
+    -- 1. Tracking Villager
+    local v_pos = go.get_position(self.sim_villager_id)
+    local b_pos = go.get_position(self.sim_building_id)
+    local dist = vmath.length(v_pos - b_pos)
+
+    -- Obtenir l'état du villageois (On demande la propriété exposée ou via internal state)
+    -- On va tricher pour la simu en lisant l'état interne s'il s'agit du même script ou via des go.property si elles existent
+    -- Note: Defold ne permet pas de lire self.state d'un autre GO directement sans msg.post,
+    -- donc pour ce test on va afficher la distance et vérifier l'arrêt.
+    print(string.format("Villager Pos: {%.1f, %.1f}", v_pos.x, v_pos.y))
+    print(string.format("Distance to Target: %.1f", dist))
+
+    if dist < 5.0 and not self.villager_arrived then
+        self.villager_arrived = true
+        print("[GAMEPLAY SIMULATION] SUCCESS: Arrived at site.")
+    end
+
+    -- 2. Tracking Building
+    -- Idem, on ne peut pas lire le state Lua directement, mais si le GameManager est notifié :
+    -- On va simuler le monitoring de progression en demandant au bâtiment de nous répondre ou via des variables globales si on veut simplifier.
+    -- Pour la pureté de l'exercice (Defold), le bâtiment devrait nous poster un update ou GameManager nous le dire.
+    -- On se contentera de vérifier si GameManager a reçu le ping de complétion.
+    -- On a une propriété 'is_completed' ou via l'event de GameManager.
+
+    print("----------------------------\n")
 end
 
 function init(self)
-    run_stress_test()
-    
-    -- Timer for debug monitor (every 1 second as requested)
-    self.timer_id = timer.delay(1, true, debug_monitor)
+    self.villager_arrived = false
+    run_gameplay_simulation(self)
+
+    -- Monitoring tick toutes les 1 sec
+    self.sim_timer_id = timer.delay(1, true, simulation_monitor)
 end
 
 function final(self)
-    if self.timer_id then
-        timer.cancel(self.timer_id)
+    if self.sim_timer_id then
+        timer.cancel(self.sim_timer_id)
     end
 end

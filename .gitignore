@@ -2,6 +2,7 @@
 /.internal
 /build
 /code-construct3
+/.idea
 .externalToolBuilders
 .DS_Store
 Thumbs.db

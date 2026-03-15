@@ -2,3 +2,15 @@ mouse_trigger {
   input: MOUSE_BUTTON_1
   action: "touch"
 }
+mouse_trigger {
+  input: MOUSE_BUTTON_LEFT
+  action: "touch"
+}
+mouse_trigger {
+  input: MOUSE_WHEEL_UP
+  action: "zoom"
+}
+mouse_trigger {
+  input: MOUSE_WHEEL_DOWN
+  action: "zoom"
+}
