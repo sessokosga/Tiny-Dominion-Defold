@@ -1,0 +1,39 @@
+{
+    "activeFile": "green.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "grass_cliff_spring.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 8
+        },
+        "green.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 122,
+                "y": 167.5
+            }
+        }
+    },
+    "last.exportedFilePath": "D:/Projets/Defold/Tiny Dominion/world/map",
+    "last.imagePath": "D:/Projets/Defold/Tiny Dominion/assets/tilesources/tilesets",
+    "map.lastUsedExportFilter": "Defold Collection (*.collection)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "openFiles": [
+        "green.tmx"
+    ],
+    "project": "tinydominon.tiled-project",
+    "recentFiles": [
+        "green.tmx",
+        "grass_cliff_spring.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}

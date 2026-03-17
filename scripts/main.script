@@ -55,10 +55,6 @@ local function simulation_monitor(self)
     local b_pos = go.get_position(self.sim_building_id)
     local dist = vmath.length(v_pos - b_pos)
 
-    -- Obtenir l'état du villageois (On demande la propriété exposée ou via internal state)
-    -- On va tricher pour la simu en lisant l'état interne s'il s'agit du même script ou via des go.property si elles existent
-    -- Note: Defold ne permet pas de lire self.state d'un autre GO directement sans msg.post,
-    -- donc pour ce test on va afficher la distance et vérifier l'arrêt.
     print(string.format("Villager Pos: {%.1f, %.1f}", v_pos.x, v_pos.y))
     print(string.format("Distance to Target: %.1f", dist))
 
@@ -66,13 +62,6 @@ local function simulation_monitor(self)
         self.villager_arrived = true
         print("[GAMEPLAY SIMULATION] SUCCESS: Arrived at site.")
     end
-
-    -- 2. Tracking Building
-    -- Idem, on ne peut pas lire le state Lua directement, mais si le GameManager est notifié :
-    -- On va simuler le monitoring de progression en demandant au bâtiment de nous répondre ou via des variables globales si on veut simplifier.
-    -- Pour la pureté de l'exercice (Defold), le bâtiment devrait nous poster un update ou GameManager nous le dire.
-    -- On se contentera de vérifier si GameManager a reçu le ping de complétion.
-    -- On a une propriété 'is_completed' ou via l'event de GameManager.
 
     print("----------------------------\n")
 end
@@ -88,5 +77,11 @@ end
 function final(self)
     if self.sim_timer_id then
         timer.cancel(self.sim_timer_id)
+    end
+end
+
+function on_message(self, message_id, message, sender)
+    if message_id == hash("world_click") then
+        print("[Main] World click at: {" .. tostring(message.position.x) .. ", " .. tostring(message.position.y) .. "}")
     end
 end

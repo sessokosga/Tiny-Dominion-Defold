@@ -1,0 +1,4 @@
+images {
+  image: "/assets/tilesources/buildings/6.png"
+}
+extrude_borders: 2

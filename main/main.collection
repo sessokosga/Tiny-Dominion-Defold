@@ -1,7 +1,7 @@
 name: "main"
 scale_along_z: 0
 embedded_instances {
-  id: "go"
+  id: "main"
   data: "components {\n"
   "  id: \"main\"\n"
   "  component: \"/scripts/main.script\"\n"
@@ -14,21 +14,51 @@ embedded_instances {
   "  id: \"building_factory\"\n"
   "  component: \"/factories/building.factory\"\n"
   "}\n"
+  "components {\n"
+  "  id: \"green\"\n"
+  "  component: \"/world/map/green.tilemap\"\n"
+  "  position {\n"
+  "    z: -1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+}
+embedded_instances {
+  id: "camera"
+  data: "components {\n"
+  "  id: \"camera_controller\"\n"
+  "  component: \"/world/camera_controller.script\"\n"
+  "  properties {\n"
+  "    id: \"initial_zoom\"\n"
+  "    value: \"2.0\"\n"
+  "    type: PROPERTY_TYPE_NUMBER\n"
+  "  }\n"
+  "  properties {\n"
+  "    id: \"min_zoom\"\n"
+  "    value: \"0.5\"\n"
+  "    type: PROPERTY_TYPE_NUMBER\n"
+  "  }\n"
+  "  properties {\n"
+  "    id: \"max_zoom\"\n"
+  "    value: \"5.0\"\n"
+  "    type: PROPERTY_TYPE_NUMBER\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"camera\"\n"
+  "  type: \"camera\"\n"
+  "  data: \"aspect_ratio: 1.777778\\n"
+  "fov: 0.7854\\n"
+  "near_z: 0.1\\n"
+  "far_z: 1000.0\\n"
+  "orthographic_projection: 1\\n"
+  "orthographic_zoom: 1.5\\n"
+  "\"\n"
+  "}\n"
   ""
   position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
+    x: 227.0
+    y: 156.0
+    z: 417.0
   }
 }

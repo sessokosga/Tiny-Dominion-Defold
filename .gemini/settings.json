@@ -4,7 +4,7 @@
       "command": "npx",
       "args": [
         "mcp-remote",
-        "http://localhost:60893/mcp",
+        "http://localhost:63992/mcp",
         "--transport",
         "http-only"
       ]
