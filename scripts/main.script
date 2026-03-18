@@ -2,6 +2,7 @@ local data_proxy = require "logic.data_proxy"
 local resource_manager = require "logic.resource_manager"
 local player_manager = require "logic.player_manager"
 local game_manager = require "logic.game_manager"
+local audio_manager = require "logic.audio_manager"
 
 local function run_gameplay_simulation(self)
     print("--- [GAMEPLAY SIMULATION] Starting Initialization ---")
@@ -10,6 +11,7 @@ local function run_gameplay_simulation(self)
     local success = data_proxy.init()
     resource_manager.init()
     player_manager.init()
+    audio_manager.init()
 
     if not success then
         print("[GAMEPLAY SIMULATION] ERROR: Failed to initialize data_proxy")
@@ -21,6 +23,12 @@ local function run_gameplay_simulation(self)
     resource_manager.add("stone", 200)
 
     print("[GAMEPLAY SIMULATION] SUCCESS: Managers and Resources Initialized")
+
+    -- Lancement de la musique retardé pour s'assurer que l'audio_controller est enregistré
+    timer.delay(0.1, false, function()
+        audio_manager.play_playlist("summer", "SHUFFLE")
+        print("[GAMEPLAY SIMULATION] Audio Manager initialized and playing playlist 'summer'")
+    end)
 
     -- 2. Spawning Entities
     print("[GAMEPLAY SIMULATION] Spawning Building (Target) at {0, 0}")

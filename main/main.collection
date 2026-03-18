@@ -1,7 +1,12 @@
 name: "main"
+instances {
+  id: "audio_manager"
+  prototype: "/main/audio_manager.go"
+}
 scale_along_z: 0
 embedded_instances {
   id: "main"
+  children: "audio_manager"
   data: "components {\n"
   "  id: \"main\"\n"
   "  component: \"/scripts/main.script\"\n"
@@ -30,7 +35,7 @@ embedded_instances {
   "  component: \"/world/camera_controller.script\"\n"
   "  properties {\n"
   "    id: \"initial_zoom\"\n"
-  "    value: \"2.0\"\n"
+  "    value: \"1.5\"\n"
   "    type: PROPERTY_TYPE_NUMBER\n"
   "  }\n"
   "  properties {\n"

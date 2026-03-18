@@ -1,0 +1,19 @@
+local audio_manager = require "logic.audio_manager"
+
+function init(self)
+    -- Enregistre ce composant script auprès du module audio_manager
+    -- pour pouvoir recevoir des événements ou déclencher des sons.
+    audio_manager.register_controller(msg.url())
+end
+
+function update(self, dt)
+    -- Le module lua gère la logique de fondu (crossfade)
+    audio_manager.update(dt)
+end
+
+function on_message(self, message_id, message, sender)
+    -- Quand un son s'arrête de lui-même (non stoppé manuellement)
+    if message_id == hash("sound_done") then
+        audio_manager.on_sound_done(sender)
+    end
+end

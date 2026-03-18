@@ -14,3 +14,7 @@ mouse_trigger {
   input: MOUSE_WHEEL_DOWN
   action: "zoom_out"
 }
+touch_trigger {
+  input: TOUCH_MULTI
+  action: "multitouch"
+}

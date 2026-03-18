@@ -13,3 +13,4 @@
 - **Engine**: Defold (Lua).
 - **Architecture Base**: Originally prototyped in Construct 3 / TypeScript, currently being migrated to Defold.
 - **Data Management**: Data is managed via CastleDB (`data.cdb`) and parsed natively in Lua.
+- **API Reference**: Always check the local `defold_api` directory (`D:/Projets/Defold/Tiny Dominion/defold_api/`) when writing Defold Lua code to ensure you use the correct syntax and functions.

@@ -4,6 +4,7 @@
 /code-construct3
 /.idea
 /releases
+/defold_api
 .externalToolBuilders
 .DS_Store
 Thumbs.db
