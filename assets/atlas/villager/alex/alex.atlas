@@ -1,0 +1,280 @@
+animations {
+  id: "idle_front"
+  images {
+    image: "/assets/atlas/villager/alex/idle/Idle1.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/idle/Idle2.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/idle/Idle3.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/idle/Idle4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+}
+animations {
+  id: "idle_back"
+  images {
+    image: "/assets/atlas/villager/alex/idle/Idle5.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/idle/Idle6.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/idle/Idle7.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/idle/Idle8.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+}
+animations {
+  id: "idle_left"
+  images {
+    image: "/assets/atlas/villager/alex/idle/Idle10.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/idle/Idle11.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/idle/Idle12.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/idle/Idle9.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+  flip_horizontal: 1
+}
+animations {
+  id: "idle_right"
+  images {
+    image: "/assets/atlas/villager/alex/idle/Idle9.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/idle/Idle10.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/idle/Idle11.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/idle/Idle12.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+}
+animations {
+  id: "run_front"
+  images {
+    image: "/assets/atlas/villager/alex/run/Run1.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run2.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run3.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run4.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run5.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run6.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run7.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run8.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 12
+}
+animations {
+  id: "run_back"
+  images {
+    image: "/assets/atlas/villager/alex/run/Run09.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run10.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run11.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run12.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run13.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run14.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run15.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run16.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 12
+}
+animations {
+  id: "run_right"
+  images {
+    image: "/assets/atlas/villager/alex/run/Run17.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run18.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run19.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run20.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run21.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run22.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run23.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run24.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 12
+}
+animations {
+  id: "run_left"
+  images {
+    image: "/assets/atlas/villager/alex/run/Run17.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run18.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run19.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run20.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run21.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run22.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run23.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/run/Run24.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 12
+  flip_horizontal: 1
+}
+animations {
+  id: "axe_front"
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe1.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe2.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe3.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe4.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe5.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe6.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+}
+animations {
+  id: "axe_back"
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe7.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe8.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe9.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe10.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe11.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe12.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+}
+animations {
+  id: "axe_right"
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe13.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe14.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe15.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe16.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe17.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe18.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+}
+animations {
+  id: "axe_left"
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe13.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe14.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe15.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe16.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe17.png"
+  }
+  images {
+    image: "/assets/atlas/villager/alex/axe/Axe18.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 8
+  flip_horizontal: 1
+}
+extrude_borders: 2

@@ -1,49 +1,54 @@
 local M = {}
 
-print(("MCP running on %s/mcp"):format(http.server.local_url))
+print(("MCP Server Bridge: %s/mcp"):format(http.server.local_url))
 
 function M.get_http_server_routes()
     return {
         http.server.route("/mcp", "POST", "json", function(request)
             local method = request.body.method
+            local id = request.body.id
+
+            -- 1. INITIALISATION
             if method == "initialize" then
                 return http.server.json_response({
                     jsonrpc = "2.0",
-                    id = request.body.id,
+                    id = id,
                     result = {
                         protocolVersion = "2024-11-05",
                         serverInfo = {
-                            name = ("Defold (%s)"):format(editor.get("/game.project", "project.title")),
-                            version = editor.version or "dev"
+                            name = ("Defold (%s)"):format(editor.get("/game.project", "project.title") or "Project"),
+                            version = editor.version or "1.0"
                         },
                         capabilities = {
-                            logging = {},
-                            prompts = {listChanged = true},
-                            resources = {
-                                subscribe = true,
-                                listChanged = true
-                            },
-                            tools = {listChanged = true}
+                            prompts = { listChanged = true },
+                            resources = { subscribe = true, listChanged = true },
+                            tools = { listChanged = true }
                         }
                     }
                 })
+
+                -- 2. TOOLS LIST (Le tableau contient 1 outil, donc c'est OK)
             elseif method == "tools/list" then
                 return http.server.json_response({
                     jsonrpc = "2.0",
-                    id = request.body.id,
-                    result = {tools = {
-                        {
-                            name = "eval_editor_script",
-                            title = "Eval editor script",
-                            description = "Eval lua code as editor script. Documentation: https://defold.com/ref/stable/editor-lua/ Some examples: `editor.get('/', 'children')`, `editor.get('/game.project', 'bootstrap.main_collection')`, `return editor.get('/logic.lua', 'text')`",
-                            inputSchema = {
-                                type = "object",
-                                properties = {lua_code = {type = "string"}},
-                                required = {"lua_code"}
+                    id = id,
+                    result = {
+                        tools = {
+                            {
+                                name = "eval_editor_script",
+                                title = "Eval editor script",
+                                description = "Exécute du code Lua dans l'éditeur Defold.",
+                                inputSchema = {
+                                    type = "object",
+                                    properties = { lua_code = { type = "string" } },
+                                    required = { "lua_code" }
+                                }
                             }
                         }
-                    }}
+                    }
                 })
+
+                -- 3. TOOLS CALL
             elseif method == "tools/call" then
                 local tool_name = request.body.params.name
                 if tool_name == "eval_editor_script" then
@@ -52,51 +57,67 @@ function M.get_http_server_routes()
                     local print_fn = function(...)
                         local s = ""
                         for i = 1, select("#", ...) do
-                            if i ~= 1 then
-                                s = s .. " "
-                            end
-                            s = s .. tostring(select(i, ...))
+                            s = s .. (i ~= 1 and " " or "") .. tostring(select(i, ...))
                         end
-                        content[#content+1] = {type = "text", text = s}
+                        content[#content+1] = { type = "text", text = s }
                     end
                     local env = {}
-                    for key, value in pairs(_G) do
-                        env[key] = value
-                    end
+                    for key, value in pairs(_G) do env[key] = value end
                     env.print = print_fn
                     local f, err = load(code, "eval", "t", env)
                     local success, result
-                    if f then
-                        success, result = pcall(f)
-                    else
-                        success, result = false, err
-                    end
-                    content[#content+1] = {type = "text", text = tostring(result)}
+                    if f then success, result = pcall(f) else success, result = false, err end
+                    content[#content+1] = { type = "text", text = tostring(result) }
                     return http.server.json_response({
                         jsonrpc = "2.0",
-                        id = request.body.id,
-                        result = {
-                            isError = not success,
-                            content = content
-                        }
+                        id = id,
+                        result = { isError = not success, content = content }
                     })
                 end
+
+                -- 4. RESOURCES LIST (CORRIGÉ : Ajout d'une ressource pour forcer le format [])
             elseif method == "resources/list" then
                 return http.server.json_response({
                     jsonrpc = "2.0",
-                    id = request.body.id,
-                    result = {}
+                    id = id,
+                    result = {
+                        resources = {
+                            {
+                                uri = "defold://project/info",
+                                name = "Project Info",
+                                mimeType = "application/json"
+                            }
+                        }
+                    }
                 })
+
+                -- 5. PROMPTS LIST (CORRIGÉ : Ajout d'un prompt et d'un argument pour forcer [])
             elseif method == "prompts/list" then
                 return http.server.json_response({
                     jsonrpc = "2.0",
-                    id = request.body.id,
-                    result = {}
+                    id = id,
+                    result = {
+                        prompts = {
+                            {
+                                name = "analyze_project",
+                                description = "Analyse la structure du projet.",
+                                arguments = {
+                                    {
+                                        name = "path",
+                                        description = "Chemin à analyser",
+                                        required = false
+                                    }
+                                }
+                            }
+                        }
+                    }
                 })
+
+                -- 6. INITIALIZED
             elseif method == "notifications/initialized" then
                 return http.server.response()
             else
-                pprint(request)
+                pprint("Unknown method:", method)
             end
         end)
     }

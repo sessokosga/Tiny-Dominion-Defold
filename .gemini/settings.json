@@ -1,13 +1,8 @@
 {
   "mcpServers": {
-    "defold-server": {
+    "defold": {
       "command": "npx",
-      "args": [
-        "mcp-remote",
-        "http://localhost:63992/mcp",
-        "--transport",
-        "http-only"
-      ]
+      "args": ["mcp-remote", "http://localhost:43812/mcp", "--transport", "http-only"]
     }
   }
 }

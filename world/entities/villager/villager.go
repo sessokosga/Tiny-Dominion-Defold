@@ -5,13 +5,16 @@ components {
 embedded_components {
   id: "sprite"
   type: "sprite"
-  data: "default_animation: \"idle-front\"\n"
+  data: "default_animation: \"idle_front\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
   "textures {\n"
   "  sampler: \"texture_sampler\"\n"
-  "  texture: \"/assets/tilesources/villager/alex/alex-idle.tilesource\"\n"
+  "  texture: \"/assets/atlas/villager/alex/alex.atlas\"\n"
   "}\n"
   ""
+  position {
+    z: 1.0
+  }
 }
 embedded_components {
   id: "collision"
